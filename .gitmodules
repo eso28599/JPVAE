@@ -1,0 +1,3 @@
+[submodule "MoPoE"]
+	path = MoPoE
+	url = https://github.com/thomassutter/MoPoE.git
