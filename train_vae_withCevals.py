@@ -187,10 +187,10 @@ def train_and_eval_split(config: ml_collections.ConfigDict, train_ds, test_ds, f
     )
     if(print_images):
       vae_utils.save_image(
-          comparison, f'results/reconstruction_{epoch}.png', nrow=8
+          comparison, f'{config.results_path}/reconstruction_{epoch}.png', nrow=8
       )
-      vae_utils.save_image(sample1, f'results/sample1_{epoch}.png', nrow=8)
-      vae_utils.save_image(sample2, f'results/sample2_{epoch}.png', nrow=8)
+      vae_utils.save_image(sample1, f'{config.results_path}/sample1_{epoch}.png', nrow=8)
+      vae_utils.save_image(sample2, f'{config.results_path}/sample2_{epoch}.png', nrow=8)
     if (epoch + 1) % 5 == 0:
       print(
           'eval epoch: {}, loss: {:.4f}, BCE: {:.4f}, KLD: {:.4f}, LL: {:.4f}'.format(

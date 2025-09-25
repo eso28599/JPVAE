@@ -42,7 +42,16 @@ os.environ["XLA_PYTHON_CLIENT_MEM_FRACTION"] = ".9"
 no_latents1 = 20
 no_latents2 = 20
 
-c_flags1 = other.get_config(no_latents1, no_latents2, number_epochs=30)
+# choose one configuration and set results path
+results_path = 'results_9'
+c_flags1 = other.get_config(no_latents1, no_latents2, alpha = 0.9,       
+                            number_epochs=30, results_path=results_path)
+# results_path = 'results_5'
+# c_flags1 = other.get_config(no_latents1, no_latents2, alpha=0.1,       
+#                             number_epochs=30, results_path=results_path)
+# results_path = 'results_1'
+# c_flags1 = other.get_config(no_latents1, no_latents2, alpha=0.5,       
+#                             number_epochs=30, results_path=results_path)
 ds_builder = tfds.builder('mnist')
 ds_builder.download_and_prepare()
 
@@ -84,7 +93,7 @@ for i in range(5):
     #print train and test accuracy
     results[i,] = (train_res[-1], test_res[-1], train_res2[-1], test_res2[-1], train_res_both[-1], test_res_both[-1])
 
-    with open('results/original_results.csv', 'w') as f:
+    with open(f'{results_path}/original_results.csv', 'w') as f:
         writer = csv.writer(f)
         writer.writerows(results)
 
@@ -144,7 +153,7 @@ for i in range(5):
                      au1, au2,
                        result[6][0], result[6][1], result[6][2], result[6][3])
     
-    with open('results/zero_results.csv', 'w') as f:
+    with open(f'{results_path}/zero_results.csv', 'w') as f:
         writer = csv.writer(f)
         writer.writerows(results_zero)
 
@@ -204,7 +213,7 @@ for i in range(5):
                      au1, au2,
                        result[6][0], result[6][1], result[6][2], result[6][3])
     
-    with open('results/orthog_results.csv', 'w') as f:
+    with open(f'{results_path}/orthog_results.csv', 'w') as f:
         writer = csv.writer(f)
         writer.writerows(results_orthog)
 
@@ -263,11 +272,11 @@ for i in range(5):
                      au1, au2,
                        result[6][0], result[6][1], result[6][2], result[6][3])
     
-    with open('results/eval_results.csv', 'w') as f:
+    with open(f'{results_path}/eval_results.csv', 'w') as f:
         writer = csv.writer(f)
         writer.writerows(results_eval)
 #load original results
-df_orig = pd.read_csv('results/original_results.csv', header=None)
+df_orig = pd.read_csv(f'{results_path}/original_results.csv', header=None)
 mean_orig = df_orig.mean(axis=0)
 #pad with None for those results not applicable for original
 mean_orig = pd.concat([pd.Series([mean_orig[0], mean_orig[1], None, mean_orig[2], mean_orig[3]]),
@@ -283,15 +292,15 @@ sd_orig = pd.concat([pd.Series([sd_orig[0], sd_orig[1], None, sd_orig[2], sd_ori
 #pad (12,2) zeroes to original results
 df_orig = pd.concat([df_orig, pd.DataFrame(0, index=range(12), columns=range(2))], axis=1)
 #load zero results
-df_zero = pd.read_csv('results/zero_results.csv', header=None)
+df_zero = pd.read_csv(f'{results_path}/zero_results.csv', header=None)
 mean_zero = df_zero.mean(axis=0)
 sd_zero = df_zero.std(axis=0)
 #load orthogonal results
-df_orthog = pd.read_csv('results/orthog_results.csv', header=None)
+df_orthog = pd.read_csv(f'{results_path}/orthog_results.csv', header=None)
 mean_orthog = df_orthog.mean(axis=0)
 sd_orthog = df_orthog.std(axis=0)
 #load eval results
-df_eval = pd.read_csv('results/eval_results.csv', header=None)
+df_eval = pd.read_csv(f'{results_path}/eval_results.csv', header=None)
 mean_eval = df_eval.mean(axis=0)
 sd_eval = df_eval.std(axis=0)
 #result variable names
@@ -305,21 +314,21 @@ results = pd.DataFrame({'mean_orig': mean_orig, 'sd_orig': sd_orig,
                         'mean_orthog': mean_orthog, 'sd_orthog': sd_orthog,
                         'mean_eval': mean_eval, 'sd_eval': sd_eval})
 results.set_index([rownames], inplace=True)
-results.to_csv('results/all_results.csv')
+results.to_csv(f'{results_path}/all_results.csv')
 
-df_zero = pd.read_csv('results/zero_results.csv', header=None)
+df_zero = pd.read_csv(f'{results_path}/zero_results.csv', header=None)
 au_zero = (df_zero[15]+df_zero[16])*2.5
-df_orthog = pd.read_csv('results/orthog_results.csv', header=None)
+df_orthog = pd.read_csv(f'{results_path}/orthog_results.csv', header=None)
 au_orthog = (df_orthog[15]+df_orthog[16])*2.5
-df_eval = pd.read_csv('results/eval_results.csv', header=None)
+df_eval = pd.read_csv(f'{results_path}/eval_results.csv', header=None)
 au_eval = (df_eval[15]+df_eval[16])*2.5
 results_au = pd.DataFrame({'mean_zero': au_zero.mean(), 'sd_zero': au_zero.std(),
                         'mean_orthog': au_orthog.mean(), 'sd_orthog': au_orthog.std(),
                         'mean_eval': au_eval.mean(), 'sd_eval': au_eval.std()}, index=range(1))
-results_au.to_csv('results/au_results.csv')
+results_au.to_csv(f'{results_path}/au_results.csv')
 
 
-df = pd.read_csv('results/all_results.csv')
+df = pd.read_csv(f'{results_path}/all_results.csv')
 df_sub = df.iloc[[1, 2,7, 4, 5, 9], 1:9]
 
 
@@ -360,7 +369,7 @@ plt.show()
 
 
 
-df = pd.read_csv('results/all_results.csv')
+df = pd.read_csv(f'{results_path}/all_results.csv')
 df_sub = df.iloc[[11,13,12,14], 3:9]
 
 

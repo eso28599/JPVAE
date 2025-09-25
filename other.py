@@ -2,7 +2,7 @@ import ml_collections
 import jax.numpy as jnp
 
 def get_config(num_latents1 = 20, num_latents2 = 20, num_out1= 392, 
-               num_out2=392, alpha= 0.9, batch_num = 32, number_epochs = 30, learning_rate = 1e-3):
+               num_out2=392, alpha= 0.9, batch_num = 32, number_epochs = 30, learning_rate = 1e-3, results_path = 'results'):
   """Get the default hyperparameter configuration."""
   config = ml_collections.ConfigDict()
 
@@ -12,6 +12,7 @@ def get_config(num_latents1 = 20, num_latents2 = 20, num_out1= 392,
   config.batch_size = batch_num
   config.num_epochs = number_epochs
   config.num_out = (num_out1, num_out2)
+  config.results_path = results_path
   return config
 
 def make_beta(steps, num_epochs, M):
