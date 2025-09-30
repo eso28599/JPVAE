@@ -1,5 +1,5 @@
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+os.environ['CUDA_VISIBLE_DEVICES'] = '3'
 # export TF2_BEHAVIOR=1
 # export TPU_ML_PLATFORM="Tensorflow"
 # export TF_CPP_MIN_LOG_LEVEL=1
@@ -43,15 +43,15 @@ no_latents1 = 20
 no_latents2 = 20
 
 # choose one configuration and set results path
-results_path = 'results_9'
-c_flags1 = other.get_config(no_latents1, no_latents2, alpha = 0.9,       
-                            number_epochs=30, results_path=results_path)
-# results_path = 'results_5'
-# c_flags1 = other.get_config(no_latents1, no_latents2, alpha=0.1,       
+# results_path = 'results_9'
+# c_flags1 = other.get_config(no_latents1, no_latents2, alpha = 0.9,       
 #                             number_epochs=30, results_path=results_path)
 # results_path = 'results_1'
-# c_flags1 = other.get_config(no_latents1, no_latents2, alpha=0.5,       
+# c_flags1 = other.get_config(no_latents1, no_latents2, alpha=0.1,       
 #                             number_epochs=30, results_path=results_path)
+results_path = 'results_5'
+c_flags1 = other.get_config(no_latents1, no_latents2, alpha=0.5,       
+                            number_epochs=30, results_path=results_path)
 ds_builder = tfds.builder('mnist')
 ds_builder.download_and_prepare()
 

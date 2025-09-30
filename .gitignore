@@ -1,3 +1,11 @@
 data/*
 MoPoE/*
 results/*
+JPVAE/CelebA/*
+CelebA/*
+config/*
+utils_data/*
+celeba_data.zip
+__pycache__/*
+data_loading.py 
+input_pipeline.py

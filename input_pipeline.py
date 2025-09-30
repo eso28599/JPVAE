@@ -20,7 +20,7 @@ import tensorflow as tf
 import tensorflow_datasets as tfds
 
 
-def build_train_set(batch_size, ds_builder,key):
+def build_train_set(batch_size, ds_builder, key):
   """Builds train dataset."""
 
   train_ds = ds_builder.as_dataset(split=tfds.Split.TRAIN)
